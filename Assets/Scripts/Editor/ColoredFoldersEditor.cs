@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
+using System;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -26,23 +27,9 @@ namespace Tabsil.Mineral
 
             string iconGuid = EditorPrefs.GetString(guid, "");
 
-            if (iconGuid == "")
+            // âΩÇ‡ê›íËÇ≥ÇÍÇƒÇ¢Ç»Ç¢Å@ORÅ@NoneÇ™ê›íËÇ≥ÇÍÇƒÇ¢ÇÈ
+            if (iconGuid == "" || iconGuid == "00000000000000000000000000000000")
                 return;
-
-            /*
-            if(Selection.activeObject == null)
-            {
-                return;
-            }
-            
-            string activeObjectGuid = AssetDatabase.
-                GUIDFromAssetPath(AssetDatabase.GetAssetPath(Selection.activeObject)).ToString();
-
-            if(activeObjectGuid != guid )
-            {
-                return;
-            }
-            */
 
             EditorGUI.DrawRect(folderRect, backgroundColor);
 
@@ -50,8 +37,6 @@ namespace Tabsil.Mineral
             Texture2D folderTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(folderTexturePath);
 
             GUI.DrawTexture(folderRect, folderTexture);
-
-            // EditorGUI.DrawRect(selectionRect, Color.red);
         }
 
         static Rect GetFolderRect(Rect selectionRect, out Color backgroundColor)
@@ -88,7 +73,6 @@ namespace Tabsil.Mineral
             string iconGuid = AssetDatabase.GUIDFromAssetPath(iconPath).ToSafeString();
 
             EditorPrefs.SetString(folderGuid, iconGuid);
-            // iconName = m_iconName;
         }
 
         public static void ResetFolderTexture()

@@ -32,7 +32,7 @@ namespace Tabsil.Mineral
         [MenuItem("Assets/Mineral/Custom Icon...", false, priority + 11)]
         static void Custom()
         {
-            Debug.Log("Coloring a custom icon...");
+            IconFoldersEditor.ChooseCustomIcon();
         }
 
         [MenuItem("Assets/Mineral/Reset Icon", false, priority + 23)]

@@ -90,6 +90,14 @@ namespace Tabsil.Mineral
             EditorPrefs.SetString(folderGuid, iconGuid);
             // iconName = m_iconName;
         }
+
+        public static void ResetFolderTexture()
+        {
+            string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            string folderGuid = AssetDatabase.GUIDFromAssetPath(folderPath).ToString();
+
+            EditorPrefs.DeleteKey(folderGuid);
+        }
     }
 }
 

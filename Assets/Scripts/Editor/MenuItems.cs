@@ -38,7 +38,7 @@ namespace Tabsil.Mineral
         [MenuItem("Assets/Mineral/Reset Icon", false, priority + 23)]
         static void ResetIcon()
         {
-            Debug.Log("Reset the folder icon");
+            ColoredFoldersEditor.ResetFolderTexture();
         }
 
         [MenuItem("Assets/Mineral/Red", true)]

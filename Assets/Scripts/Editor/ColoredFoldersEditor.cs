@@ -20,6 +20,7 @@ namespace Tabsil.Mineral
         static void OnGUI(string guid, Rect selectionRect)
         {
             Rect folderRect;
+            Color backgroundColor = new Color(.2f, .2f, .2f);
 
 
             if (selectionRect.x < 15)
@@ -31,6 +32,7 @@ namespace Tabsil.Mineral
             {
                 // First column
                 folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.height, selectionRect.height);
+                backgroundColor = new Color(0.22f, 0.22f, 0.22f);
             }
             else
             {
@@ -47,12 +49,15 @@ namespace Tabsil.Mineral
             string activeObjectGuid = AssetDatabase.
                 GUIDFromAssetPath(AssetDatabase.GetAssetPath(Selection.activeObject)).ToString();
 
-            if(activeObjectGuid == guid )
+            if(activeObjectGuid != guid )
             {
-                EditorGUI.DrawRect(folderRect, Color.green);
+                return;
             }
+            EditorGUI.DrawRect(folderRect, backgroundColor);
 
+            Texture2D folderTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Icons/Blue.png");
 
+            GUI.DrawTexture(folderRect, folderTexture);
 
             // EditorGUI.DrawRect(selectionRect, Color.red);
         }

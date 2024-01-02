@@ -32,7 +32,7 @@ namespace Tabsil.Mineral
                 UnityEngine.Object selectedObject = EditorGUIUtility.GetObjectPickerObject();
 
                 string folderTextureGuid = AssetDatabase.GUIDFromAssetPath(AssetDatabase.GetAssetPath(selectedObject)).ToSafeString();
-                EditorPrefs.SetString(selectedFolderGuid, folderTextureGuid);
+                MineralPrefs.SetString(selectedFolderGuid, folderTextureGuid);
             }
         }
 

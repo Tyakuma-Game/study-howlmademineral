@@ -25,7 +25,7 @@ namespace Tabsil.Mineral
             Color backgroundColor;
             Rect folderRect = GetFolderRect(selectionRect, out backgroundColor);
 
-            string iconGuid = EditorPrefs.GetString(guid, "");
+            string iconGuid = MineralPrefs.GetString(guid, "");
 
             // âΩÇ‡ê›íËÇ≥ÇÍÇƒÇ¢Ç»Ç¢Å@ORÅ@NoneÇ™ê›íËÇ≥ÇÍÇƒÇ¢ÇÈ
             if (iconGuid == "" || iconGuid == "00000000000000000000000000000000")
@@ -72,7 +72,7 @@ namespace Tabsil.Mineral
             string iconPath = "Assets/Icons/" + m_iconName + ".png";
             string iconGuid = AssetDatabase.GUIDFromAssetPath(iconPath).ToSafeString();
 
-            EditorPrefs.SetString(folderGuid, iconGuid);
+            MineralPrefs.SetString(folderGuid, iconGuid);
         }
 
         public static void ResetFolderTexture()
@@ -80,7 +80,7 @@ namespace Tabsil.Mineral
             string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
             string folderGuid = AssetDatabase.GUIDFromAssetPath(folderPath).ToString();
 
-            EditorPrefs.DeleteKey(folderGuid);
+            MineralPrefs.DeleteKey(folderGuid);
         }
     }
 }

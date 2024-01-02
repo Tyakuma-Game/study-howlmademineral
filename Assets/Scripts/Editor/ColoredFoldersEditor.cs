@@ -19,7 +19,43 @@ namespace Tabsil.Mineral
 
         static void OnGUI(string guid, Rect selectionRect)
         {
-            EditorGUI.DrawRect(selectionRect, Color.red);
+            if(selectionRect.x > 15)
+            {
+                if(selectionRect.height > 20)
+                {
+                    // Second column, big scale
+                    EditorGUI.DrawRect(selectionRect, Color.blue);
+                }
+                else
+                {
+                    // First column
+                    EditorGUI.DrawRect(selectionRect, Color.red);
+                }
+            }
+            else
+            {
+                // Second column, small scale
+                EditorGUI.DrawRect(selectionRect, Color.blue);
+            }
+
+
+
+            /*
+            if(Selection.activeObject == null)
+            {
+                return;
+            }
+
+            string activeObjectGuid = AssetDatabase.
+                GUIDFromAssetPath(AssetDatabase.GetAssetPath(Selection.activeObject)).ToString();
+
+            if(activeObjectGuid == guid )
+            {
+                Debug.Log("Rect : " + selectionRect);
+            }
+            */
+
+            // EditorGUI.DrawRect(selectionRect, Color.red);
         }
 
     }

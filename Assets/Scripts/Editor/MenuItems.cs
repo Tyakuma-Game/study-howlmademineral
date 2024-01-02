@@ -9,10 +9,54 @@ namespace Tabsil.Mineral
 {
     static class MenuItems
     {
-        [MenuItem("Assets/Mineral/Blue")]
+        const int priority = 10000;
+
+        [MenuItem("Assets/Mineral/Red", false, priority)]
+        static void Red()
+        {
+            Debug.Log("Coloring the folder Red");
+        }
+
+        [MenuItem("Assets/Mineral/Green", false, priority)]
+        static void Green()
+        {
+            Debug.Log("Coloring the folder Green");
+        }
+
+        [MenuItem("Assets/Mineral/Blue", false, priority)]
         static void Blue()
         {
-            Debug.Log("Coloring the folder blue");
+            Debug.Log("Coloring the folder Blue");
+        }
+
+        [MenuItem("Assets/Mineral/Custom Icon...", false, priority + 11)]
+        static void Custom()
+        {
+            Debug.Log("Coloring a custom icon...");
+        }
+
+        [MenuItem("Assets/Mineral/Reset Icon", false, priority + 23)]
+        static void ResetIcon()
+        {
+            Debug.Log("Reset the folder icon");
+        }
+
+        [MenuItem("Assets/Mineral/Red", true)]
+        [MenuItem("Assets/Mineral/Green", true)]
+        [MenuItem("Assets/Mineral/Blue", true)]
+        [MenuItem("Assets/Mineral/Custom Icon...", true)]
+        [MenuItem("Assets/Mineral/Reset Icon", true)]
+        static bool ValidateFolder()
+        {
+            if(Selection.activeObject == null)
+            {
+                return false;
+            }
+
+            Object selectedObject = Selection.activeObject;
+
+            string objectPath = AssetDatabase.GetAssetPath(selectedObject);
+            return AssetDatabase.IsValidFolder(objectPath);
         }
     }
 }

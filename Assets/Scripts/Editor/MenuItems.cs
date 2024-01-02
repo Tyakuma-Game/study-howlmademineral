@@ -14,19 +14,19 @@ namespace Tabsil.Mineral
         [MenuItem("Assets/Mineral/Red", false, priority)]
         static void Red()
         {
-            Debug.Log("Coloring the folder Red");
+            ColoredFoldersEditor.SetIconName("Red");
         }
 
         [MenuItem("Assets/Mineral/Green", false, priority)]
         static void Green()
         {
-            Debug.Log("Coloring the folder Green");
+            ColoredFoldersEditor.SetIconName("Green");
         }
 
         [MenuItem("Assets/Mineral/Blue", false, priority)]
         static void Blue()
         {
-            Debug.Log("Coloring the folder Blue");
+            ColoredFoldersEditor.SetIconName("Blue");
         }
 
         [MenuItem("Assets/Mineral/Custom Icon...", false, priority + 11)]

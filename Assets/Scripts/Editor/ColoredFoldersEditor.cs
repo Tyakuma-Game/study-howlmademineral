@@ -11,6 +11,8 @@ namespace Tabsil.Mineral
     [InitializeOnLoad]
     static class ColoredFoldersEditor
     {
+        static string iconName;
+
         static ColoredFoldersEditor()
         {
             EditorApplication.projectWindowItemOnGUI -= OnGUI;
@@ -19,16 +21,50 @@ namespace Tabsil.Mineral
 
         static void OnGUI(string guid, Rect selectionRect)
         {
-            Rect folderRect;
-            Color backgroundColor = new Color(.2f, .2f, .2f);
+            Color backgroundColor;
+            Rect folderRect = GetFolderRect(selectionRect, out backgroundColor);
 
+            string iconGuid = EditorPrefs.GetString(guid, "");
+
+            if (iconGuid == "")
+                return;
+
+            /*
+            if(Selection.activeObject == null)
+            {
+                return;
+            }
+            
+            string activeObjectGuid = AssetDatabase.
+                GUIDFromAssetPath(AssetDatabase.GetAssetPath(Selection.activeObject)).ToString();
+
+            if(activeObjectGuid != guid )
+            {
+                return;
+            }
+            */
+
+            EditorGUI.DrawRect(folderRect, backgroundColor);
+
+            string folderTexturePath = AssetDatabase.GUIDToAssetPath(iconGuid);
+            Texture2D folderTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(folderTexturePath);
+
+            GUI.DrawTexture(folderRect, folderTexture);
+
+            // EditorGUI.DrawRect(selectionRect, Color.red);
+        }
+
+        static Rect GetFolderRect(Rect selectionRect, out Color backgroundColor)
+        {
+            Rect folderRect;
+            backgroundColor = new Color(.2f, .2f, .2f);
 
             if (selectionRect.x < 15)
             {
                 // Second Column, small scale
                 folderRect = new Rect(selectionRect.x + 3, selectionRect.y, selectionRect.height, selectionRect.height);
             }
-            else if(selectionRect.x >= 15 && selectionRect.height < 30)
+            else if (selectionRect.x >= 15 && selectionRect.height < 30)
             {
                 // First column
                 folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.height, selectionRect.height);
@@ -40,28 +76,20 @@ namespace Tabsil.Mineral
                 folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.width);
             }
 
-
-            if(Selection.activeObject == null)
-            {
-                return;
-            }
-
-            string activeObjectGuid = AssetDatabase.
-                GUIDFromAssetPath(AssetDatabase.GetAssetPath(Selection.activeObject)).ToString();
-
-            if(activeObjectGuid != guid )
-            {
-                return;
-            }
-            EditorGUI.DrawRect(folderRect, backgroundColor);
-
-            Texture2D folderTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Icons/Blue.png");
-
-            GUI.DrawTexture(folderRect, folderTexture);
-
-            // EditorGUI.DrawRect(selectionRect, Color.red);
+            return folderRect;
         }
 
+        public static void SetIconName(string m_iconName)
+        {
+            string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            string folderGuid = AssetDatabase.GUIDFromAssetPath(folderPath).ToString();
+
+            string iconPath = "Assets/Icons/" + m_iconName + ".png";
+            string iconGuid = AssetDatabase.GUIDFromAssetPath(iconPath).ToSafeString();
+
+            EditorPrefs.SetString(folderGuid, iconGuid);
+            // iconName = m_iconName;
+        }
     }
 }
 

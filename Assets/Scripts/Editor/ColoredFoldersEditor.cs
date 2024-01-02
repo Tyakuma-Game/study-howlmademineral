@@ -19,28 +19,26 @@ namespace Tabsil.Mineral
 
         static void OnGUI(string guid, Rect selectionRect)
         {
-            if(selectionRect.x > 15)
+            Rect folderRect;
+
+
+            if (selectionRect.x < 15)
             {
-                if(selectionRect.height > 20)
-                {
-                    // Second column, big scale
-                    EditorGUI.DrawRect(selectionRect, Color.blue);
-                }
-                else
-                {
-                    // First column
-                    EditorGUI.DrawRect(selectionRect, Color.red);
-                }
+                // Second Column, small scale
+                folderRect = new Rect(selectionRect.x + 3, selectionRect.y, selectionRect.height, selectionRect.height);
+            }
+            else if(selectionRect.x >= 15 && selectionRect.height < 30)
+            {
+                // First column
+                folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.height, selectionRect.height);
             }
             else
             {
-                // Second column, small scale
-                EditorGUI.DrawRect(selectionRect, Color.blue);
+                // Second column, big scale
+                folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.width);
             }
 
 
-
-            /*
             if(Selection.activeObject == null)
             {
                 return;
@@ -51,9 +49,10 @@ namespace Tabsil.Mineral
 
             if(activeObjectGuid == guid )
             {
-                Debug.Log("Rect : " + selectionRect);
+                EditorGUI.DrawRect(folderRect, Color.green);
             }
-            */
+
+
 
             // EditorGUI.DrawRect(selectionRect, Color.red);
         }

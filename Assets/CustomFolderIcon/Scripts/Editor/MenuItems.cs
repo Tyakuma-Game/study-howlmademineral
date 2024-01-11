@@ -17,7 +17,7 @@ namespace Tabsil.Mineral
         /// <summary>
         /// カスタムアイコンを選択するメニュー項目
         /// </summary>
-        [MenuItem("Assets/Mineral/Custom Icon...", false, priority + 11)]
+        [MenuItem("Assets/Custom Folder Icon/Custom Icon...", false, priority + 11)]
         static void Custom()
         {
             IconFoldersEditor.ChooseCustomIcon();
@@ -26,7 +26,7 @@ namespace Tabsil.Mineral
         /// <summary>
         /// フォルダアイコンをリセットするメニュー項目
         /// </summary>
-        [MenuItem("Assets/Mineral/Reset Icon", false, priority + 23)]
+        [MenuItem("Assets/Custom Folder Icon/Reset Icon", false, priority + 23)]
         static void ResetIcon()
         {
             ColoredFoldersEditor.ResetFolderTexture();
@@ -35,8 +35,8 @@ namespace Tabsil.Mineral
         /// <summary>
         /// フォルダメニュー項目の有効性を検証するメソッド
         /// </summary>
-        [MenuItem("Assets/Mineral/Custom Icon...", true)]
-        [MenuItem("Assets/Mineral/Reset Icon", true)]
+        [MenuItem("Assets/Custom Folder Icon/Custom Icon...", true)]
+        [MenuItem("Assets/Custom Folder Icon/Reset Icon", true)]
         static bool ValidateFolder()
         {
             // 選択されたオブジェクトが存在しない場合、メニュー項目を無効にする

@@ -9,6 +9,9 @@ using UnityEditor;
 
 namespace Tabsil.Mineral
 {
+    /// <summary>
+    /// フォルダの色付けとアイコン設定を行うエディタの拡張クラス
+    /// </summary>
     [InitializeOnLoad]
     static class ColoredFoldersEditor
     {
@@ -16,10 +19,16 @@ namespace Tabsil.Mineral
 
         static ColoredFoldersEditor()
         {
+            // エディタのプロジェクトウィンドウアイテムの描画時にメソッドを呼び出し
             EditorApplication.projectWindowItemOnGUI -= OnGUI;
             EditorApplication.projectWindowItemOnGUI += OnGUI;
         }
 
+        /// <summary>
+        /// プロジェクトウィンドウでフォルダの色付けとアイコンの描画
+        /// </summary>
+        /// <param name="guid">アセットのGUID</param>
+        /// <param name="selectionRect">選択領域のRect</param>
         static void OnGUI(string guid, Rect selectionRect)
         {
             Color backgroundColor;
@@ -31,14 +40,21 @@ namespace Tabsil.Mineral
             if (iconGuid == "" || iconGuid == "00000000000000000000000000000000")
                 return;
 
+            // フォルダの背景色を描画
             EditorGUI.DrawRect(folderRect, backgroundColor);
 
+            // フォルダに設定されたアイコンを描画
             string folderTexturePath = AssetDatabase.GUIDToAssetPath(iconGuid);
             Texture2D folderTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(folderTexturePath);
-
             GUI.DrawTexture(folderRect, folderTexture);
         }
 
+        /// <summary>
+        /// フォルダのRectを取得
+        /// </summary>
+        /// <param name="selectionRect">選択領域のRect</param>
+        /// <param name="backgroundColor">背景色</param>
+        /// <returns>フォルダのRect</returns>
         static Rect GetFolderRect(Rect selectionRect, out Color backgroundColor)
         {
             Rect folderRect;
@@ -46,40 +62,52 @@ namespace Tabsil.Mineral
 
             if (selectionRect.x < 15)
             {
-                // Second Column, small scale
+                // 第二列、小さいスケール
                 folderRect = new Rect(selectionRect.x + 3, selectionRect.y, selectionRect.height, selectionRect.height);
             }
             else if (selectionRect.x >= 15 && selectionRect.height < 30)
             {
-                // First column
+                // 第一列
                 folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.height, selectionRect.height);
                 backgroundColor = new Color(0.22f, 0.22f, 0.22f);
             }
             else
             {
-                // Second column, big scale
+                // 第二列、大きいスケール
                 folderRect = new Rect(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.width);
             }
 
             return folderRect;
         }
 
+        /// <summary>
+        /// フォルダにアイコン名を設定
+        /// </summary>
+        /// <param name="m_iconName">設定するアイコン名</param>
         public static void SetIconName(string m_iconName)
         {
+            // アクティブなオブジェクトのフォルダパスとGUIDを取得
             string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
             string folderGuid = AssetDatabase.GUIDFromAssetPath(folderPath).ToString();
 
+            // アイコンのパスからGUIDを取得
             string iconPath = "Assets/Icons/" + m_iconName + ".png";
             string iconGuid = AssetDatabase.GUIDFromAssetPath(iconPath).ToSafeString();
 
+            // フォルダのGUIDとアイコンのGUIDを関連付けて保存
             MineralPrefs.SetString(folderGuid, iconGuid);
         }
 
+        /// <summary>
+        /// フォルダのアイコン設定をリセット
+        /// </summary>
         public static void ResetFolderTexture()
         {
+            // アクティブなオブジェクトのフォルダパスとGUIDを取得
             string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
             string folderGuid = AssetDatabase.GUIDFromAssetPath(folderPath).ToString();
 
+            // フォルダのアイコン設定を削除
             MineralPrefs.DeleteKey(folderGuid);
         }
     }

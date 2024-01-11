@@ -9,74 +9,9 @@ using UnityEditor;
 
 namespace Tabsil.Mineral
 {
-    [System.Serializable]
-    public class Data
-    {
-        [SerializeField]
-        List<string> keys;
-
-        [SerializeField]
-        List<string> values;
-
-        public Data()
-        {
-            keys = new List<string>();
-            values = new List<string>();
-        }
-
-        public string GetString(string key, string defultValue)
-        {
-            for (int i = 0; i < keys.Count; i++)
-            {
-                if (keys[i] == key)
-                {
-                    return values[i];
-                }
-            }
-
-            return defultValue;
-        }
-
-        public void SetString(string key, string value)
-        {
-            for (int i = 0; i < keys.Count; i++)
-            {
-                if (keys[i] == key)
-                {
-                    values[i] = value;
-                    return;
-                }
-            }
-
-            // The key doesn't exist, let's add it
-            keys.Add(key);
-            values.Add(value);
-        }
-
-        public void DeleteKey(string key)
-        {
-            int indexToRemove = -1;
-
-            for (int i = 0; i < keys.Count; i++)
-            {
-                if (keys[i] == key)
-                {
-                    indexToRemove = i;
-                    break;
-                }
-            }
-
-            if( indexToRemove < 0)
-            {
-                return;
-            }
-
-            keys.RemoveAt(indexToRemove);
-            values.RemoveAt(indexToRemove);
-        }
-    }
-
-
+    /// <summary>
+    /// フォルダーの設定を管理するクラス
+    /// </summary>
     [InitializeOnLoad]
     public static class MineralPrefs
     {
@@ -88,11 +23,14 @@ namespace Tabsil.Mineral
             LoadData();
         }
 
+        /// <summary>
+        /// データの読み込み
+        /// </summary>
         static void LoadData()
         {
             if(!File.Exists(dataPath))
             {
-                // Create the data file
+                // データファイルを作成
                 FileStream fs = new FileStream(dataPath, FileMode.Create);
 
                 Data dataObject = new Data();
@@ -116,24 +54,41 @@ namespace Tabsil.Mineral
             }
         }
 
+        /// <summary>
+        /// データ保存
+        /// </summary
         static void SaveData()
         {
             string data = JsonUtility.ToJson(dataObject, true);
             File.WriteAllText(dataPath, data);
         }
 
-
+        /// <summary>
+        /// 指定したキーに対応する文字列を取得
+        /// </summary>
+        /// <param name="key">取得する値のキー</param>
+        /// <param name="defultValue">存在しなかった際に返す値</param>
+        /// <returns>キーに対応する値</returns>
         public static string GetString(string key, string defultValue)
         {
             return dataObject.GetString(key, defultValue);
         }
 
+        /// <summary>
+        /// 指定したキーに対応する文字列を設定
+        /// </summary>
+        /// <param name="key">保存するキー</param>
+        /// <param name="value">保存する値</param>
         public static void SetString(string key,string value)
         {
             dataObject.SetString(key, value);
             SaveData();
         }
 
+        /// <summary>
+        /// 指定したキーに対応するデータの削除
+        /// </summary>
+        /// <param name="key">削除するキー</param>
         public static void DeleteKey(string key)
         {
             dataObject.DeleteKey(key);

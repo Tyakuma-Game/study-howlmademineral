@@ -9,18 +9,40 @@ using UnityEditor;
 
 namespace Tabsil.Mineral
 {
+    // folderIconData
     /// <summary>
     /// フォルダーの設定を管理するクラス
     /// </summary>
     [InitializeOnLoad]
     public static class MineralPrefs
     {
-        const string dataPath = "Assets/data.txt";
+        static string dataPath;
         static Data dataObject;
 
         static MineralPrefs()
         {
+            dataPath = GetAssetPath("CustomFolderData");
             LoadData();
+        }
+
+        /// <summary>
+        /// アセットのパスを取得するメソッド
+        /// </summary>
+        /// <param name="assetName">アセットの名前</param>
+        /// <returns>アセットのパス</returns>
+        static string GetAssetPath(string assetName)
+        {
+            string[] assetPaths = AssetDatabase.FindAssets(assetName);
+            if (assetPaths.Length > 0)
+            {
+                string assetGUID = assetPaths[0];
+                return AssetDatabase.GUIDToAssetPath(assetGUID);
+            }
+            else
+            {
+                Debug.LogError("アセットが見つかりません: " + assetName);
+                return null;
+            }
         }
 
         /// <summary>

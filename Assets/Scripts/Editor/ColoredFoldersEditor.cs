@@ -81,24 +81,6 @@ namespace Tabsil.Mineral
         }
 
         /// <summary>
-        /// フォルダにアイコン名を設定
-        /// </summary>
-        /// <param name="m_iconName">設定するアイコン名</param>
-        public static void SetIconName(string m_iconName)
-        {
-            // アクティブなオブジェクトのフォルダパスとGUIDを取得
-            string folderPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            string folderGuid = AssetDatabase.GUIDFromAssetPath(folderPath).ToString();
-
-            // アイコンのパスからGUIDを取得
-            string iconPath = "Assets/Icons/" + m_iconName + ".png";
-            string iconGuid = AssetDatabase.GUIDFromAssetPath(iconPath).ToSafeString();
-
-            // フォルダのGUIDとアイコンのGUIDを関連付けて保存
-            MineralPrefs.SetString(folderGuid, iconGuid);
-        }
-
-        /// <summary>
         /// フォルダのアイコン設定をリセット
         /// </summary>
         public static void ResetFolderTexture()
